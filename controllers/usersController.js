@@ -13,6 +13,8 @@ const createUser = async (req, res) => {
         .json({ success: 0, message: "This username is not aviable!" });
     }
 
+    console.log(req.body);
+
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await User.create({
@@ -24,6 +26,7 @@ const createUser = async (req, res) => {
 
     res.status(201).json({ success: 1, data: createdUser });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: 0,
       message: err.message,

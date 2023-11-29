@@ -18,13 +18,12 @@ const getCategories = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { name_tm, name_ru, name_en } = req.body;
-
     const found = await Category.findOne({ name_tm, name_ru, name_en });
 
     if (found) {
       return res.status(200).json({
         success: 0,
-        msg: "This section is already exists!",
+        msg: "This category is already exists!",
       });
     }
 
