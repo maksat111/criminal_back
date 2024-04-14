@@ -10,7 +10,7 @@ const UsersSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email: {
+    username: {
       type: String,
       required: true,
     },
@@ -18,10 +18,15 @@ const UsersSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Users", UsersSchema);
+module.exports = mongoose.model("Ulanyjy", UsersSchema);

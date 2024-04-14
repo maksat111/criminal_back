@@ -5,33 +5,38 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 
 // ------------------------------------------- Controllers --------------------------------------------- //
-const foodsController = require("../controllers/foodsController");
-const categoriesController = require("../controllers/categoriesController");
-const usersController = require("../controllers/usersController");
+const jenayatcyController = require("../controllers/jenayatcyController");
+const kanunController = require("../controllers/kanunController");
+const ulanyjyController = require("../controllers/ulanyjyController");
 
 //---------------------------------------------- User Routes --------------------------------------------------- //
-router.post("/login", usersController.loginUser);
-router.get("/admin/user/list", auth, usersController.getUser);
-router.post("/admin/user/create", usersController.createUser);
-router.patch("/admin/user/update/:id", auth, usersController.updateUser);
-router.delete("/admin/user/delete/:id", auth, usersController.deleteUser);
+router.post("/admin/login", ulanyjyController.loginUser);
+router.get("/admin/ulanyjy/list", auth, ulanyjyController.getUser);
+router.post("/admin/ulanyjy/create", ulanyjyController.createUser);
+router.patch("/admin/ulanyjy/update/:id", auth, ulanyjyController.updateUser);
+router.delete("/admin/ulanyjy/delete/:id", auth, ulanyjyController.deleteUser);
 
-//---------------------------------------------- Category Routes --------------------------------------------------- //
-router.get("/category/list", categoriesController.getCategories);
-router.get("/admin/category/list", auth, categoriesController.getCategories);
-router.post("/admin/category/create", categoriesController.create);
-router.patch("/admin/category/update/:id", auth, categoriesController.update);
-router.delete(
-  "/admin/category/delete/:id",
+//---------------------------------------------- Kanun Routes --------------------------------------------------- //
+router.get("/kanun/list", kanunController.getKanun);
+router.get("/admin/kanun/list", auth, kanunController.getKanun);
+router.post("/admin/kanun/create", kanunController.create);
+router.patch("/admin/kanun/update/:id", auth, kanunController.update);
+router.delete("/admin/kanun/delete/:id", auth, kanunController.deleteKanun);
+
+//---------------------------------------------- Jenayatcy Routes --------------------------------------------------- //
+router.get("/jenayatcy/list", jenayatcyController.getJenayatcy);
+router.delete("/admin/jenayatcy/file/delete", jenayatcyController.fileDelete);
+router.get("/admin/jenayatcy/list", auth, jenayatcyController.getJenayatcy);
+router.post("/admin/jenayatcy/create", jenayatcyController.createJenayatcy);
+router.patch(
+  "/admin/jenayatcy/update/:id",
   auth,
-  categoriesController.deleteCategory
+  jenayatcyController.updateJenayatcy
 );
-
-//---------------------------------------------- Food Routes --------------------------------------------------- //
-router.get("/food/list", foodsController.getFoods);
-router.get("/admin/food/list", auth, foodsController.getFoods);
-router.post("/admin/food/create", foodsController.createFood);
-router.patch("/admin/food/update/:id", auth, foodsController.updateFood);
-router.delete("/admin/food/delete/:id", auth, foodsController.deleteFood);
+router.delete(
+  "/admin/jenayatcy/delete/:id",
+  auth,
+  jenayatcyController.deleteJenayatcy
+);
 
 module.exports = router;
