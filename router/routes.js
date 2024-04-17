@@ -25,9 +25,18 @@ router.delete("/admin/kanun/delete/:id", auth, kanunController.deleteKanun);
 
 //---------------------------------------------- Jenayatcy Routes --------------------------------------------------- //
 router.get("/jenayatcy/list", jenayatcyController.getJenayatcy);
+router.get(
+  "/admin/jenayatcy/detail/:id",
+  auth,
+  jenayatcyController.jenayatcyDetails
+);
 router.delete("/admin/jenayatcy/file/delete", jenayatcyController.fileDelete);
 router.get("/admin/jenayatcy/list", auth, jenayatcyController.getJenayatcy);
-router.post("/admin/jenayatcy/create", jenayatcyController.createJenayatcy);
+router.post(
+  "/admin/jenayatcy/create",
+  auth,
+  jenayatcyController.createJenayatcy
+);
 router.patch(
   "/admin/jenayatcy/update/:id",
   auth,
