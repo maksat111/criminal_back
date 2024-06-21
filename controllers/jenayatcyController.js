@@ -8,6 +8,13 @@ const jenayatcyDetails = async (req, res) => {
 
     const found = await Jenayatcy.find({ _id: id });
 
+    if (found) {
+      found[0].image1 = process.env.BASE_URL + found[0].image1;
+      found[0].image2 = process.env.BASE_URL + found[0].image2;
+      found[0].image3 = process.env.BASE_URL + found[0].image3;
+      found[0].image4 = process.env.BASE_URL + found[0].image4;
+    }
+
     res.status(200).json({
       success: 1,
       data: found[0],
@@ -48,6 +55,14 @@ const getJenayatcy = async (req, res) => {
       config.length == 0 ? {} : { $or: config }
     );
 
+    found.length > 0 &&
+      found.forEach((item) => {
+        item.image1 = process.env.BASE_URL + item.image1;
+        item.image2 = process.env.BASE_URL + item.image2;
+        item.image3 = process.env.BASE_URL + item.image3;
+        item.image4 = process.env.BASE_URL + item.image4;
+      });
+
     res.status(200).json({
       success: 1,
       data: found,
@@ -72,22 +87,29 @@ const createJenayatcy = async (req, res) => {
     // }
     if (req.files?.image1) {
       img = await imageUpload(req.files.image1.name, req.files.image1.data);
-      req.body.image1 = process.env.BASE_URL + "/" + img;
+      req.body.image1 = img;
     }
     if (req.files?.image2) {
       img = await imageUpload(req.files.image2.name, req.files.image2.data);
-      req.body.image2 = process.env.BASE_URL + "/" + img;
+      req.body.image2 = img;
     }
     if (req.files?.image3) {
       img = await imageUpload(req.files.image3.name, req.files.image3.data);
-      req.body.image3 = process.env.BASE_URL + "/" + img;
+      req.body.image3 = img;
     }
     if (req.files?.image4) {
       img = await imageUpload(req.files.image4.name, req.files.image4.data);
-      req.body.image4 = process.env.BASE_URL + "/" + img;
+      req.body.image4 = img;
     }
 
     const newJenayatcy = await Jenayatcy.create(req.body);
+
+    if (newJenayatcy !== null) {
+      newJenayatcy.image1 = process.env.BASE_URL + newJenayatcy.image1;
+      newJenayatcy.image2 = process.env.BASE_URL + newJenayatcy.image2;
+      newJenayatcy.image3 = process.env.BASE_URL + newJenayatcy.image3;
+      newJenayatcy.image4 = process.env.BASE_URL + newJenayatcy.image4;
+    }
 
     res.status(201).json({
       success: 1,
@@ -116,26 +138,22 @@ const updateJenayatcy = async (req, res) => {
 
     if (req.files?.image1) {
       img = await imageUpload(req.files.image.name, req.files.image.data);
-      const data = found.image.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image1);
       req.body.image1 = img;
     }
     if (req.files?.image2) {
       img = await imageUpload(req.files.image.name, req.files.image.data);
-      const data = found.image.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image2);
       req.body.image2 = img;
     }
     if (req.files?.image3) {
       img = await imageUpload(req.files.image.name, req.files.image.data);
-      const data = found.image.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image3);
       req.body.image3 = img;
     }
     if (req.files?.image4) {
       img = await imageUpload(req.files.image.name, req.files.image.data);
-      const data = found.image.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image4);
       req.body.image4 = img;
     }
 
@@ -147,6 +165,8 @@ const updateJenayatcy = async (req, res) => {
       image3: req.body.image3,
       image4: req.body.image4,
     };
+
+    console.log(data);
 
     res.status(200).json({
       success: 1,
@@ -174,20 +194,16 @@ const deleteJenayatcy = async (req, res) => {
     await Jenayatcy.deleteOne({ _id: id });
 
     if (found.image1) {
-      const data = found.image1.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image1);
     }
     if (found.image2) {
-      const data = found.image2.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image2);
     }
     if (found.image3) {
-      const data = found.image3.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image3);
     }
     if (found.image4) {
-      const data = found.image4.split("/");
-      await fs.unlinkSync(data[3] + "/" + data[4]);
+      await fs.unlinkSync(found.image4);
     }
 
     res.status(200).json({
